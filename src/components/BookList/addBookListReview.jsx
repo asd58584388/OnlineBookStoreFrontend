@@ -60,7 +60,7 @@ const AddBookListReview = ({booklist,isLoggedIn,token,setParentReviews}) => {
                         onChange={handleRatingChange}
                         min={1}
                         max={5}
-                    />
+                    required/>
                 </label>
                 <br />
                 <label>
@@ -69,7 +69,7 @@ const AddBookListReview = ({booklist,isLoggedIn,token,setParentReviews}) => {
                         type="text"
                         value={reviewTitle}
                         onChange={handleReviewTitleChange}
-                    />
+                    required/>
                 </label>
                 <br />
                 <label>
@@ -77,7 +77,7 @@ const AddBookListReview = ({booklist,isLoggedIn,token,setParentReviews}) => {
                     <textarea
                         value={reviewText}
                         onChange={handleReviewTextChange}
-                    />
+                    required/>
                 </label>
                 <br />
                 <button type="submit">Submit Review</button>

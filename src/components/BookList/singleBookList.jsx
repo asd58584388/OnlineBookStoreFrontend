@@ -3,15 +3,20 @@ import * as backendAPI from "../apiService";
 import { useState } from "react";
 import BookListReviews from "./bookListReviews";
 import AddBookListReview from "./addBookListReview";
-import { NAVIGATE_TO_BOOKLIST_PAGE } from "../redux/actionTypes";
+import { NAVIGATE_TO_BOOKLIST_PAGE ,NAVIGATE_TO_USER_PAGE,NAVIGATE_TO_BOOKINFORMATION_PAGE} from "../redux/actionTypes";
 import { connect } from "react-redux";
+import { getBookById } from "../googlebookapi";
 
-const SingleBookList = ({ bookList, token ,removeWholeBookList}) => {
+const SingleBookList = ({ bookList, token, removeWholeBookList,navigateToBookInformation }) => {
     const [booklist, setBooklist] = useState(bookList);
     const [checkedUser, setCheckedUser] = useState(false);
     const [reviews, setReviews] = useState(booklist.reviews);
 
     const removeBookFromList = (e) => {
+        if(e.target.dataset?.type!="button")
+        {
+            return;
+        }
         let bookid = e.target.dataset.id;
         let json = {
             bookid: bookid,
@@ -46,14 +51,31 @@ const SingleBookList = ({ bookList, token ,removeWholeBookList}) => {
         });
     };
 
-  
+    const goToBookInformation = (e) => {
+        e.preventDefault();
+        if(e.target.dataset?.type=="bookinfo")
+        {
+            console.log("bookinfo");
+            getBookById(e.target.dataset.id).then((result) => {
+                let book={
+                    book:result,
+                    bookReviews:[]
+                }
+                console.log(book);
+
+                navigateToBookInformation(book);
+            });
+        }
+    };
 
     if (booklist.books == undefined || booklist.books.length === 0) {
         return (
             <div className="single-booklist">
                 <div className="no-book-message">No Book in this Booklist</div>
                 {checkedUser ? (
-                    <button className="delete-button" onClick={removeWholeList}>Delete</button>
+                    <button className="delete-button" onClick={removeWholeList}>
+                        Delete
+                    </button>
                 ) : (
                     <></>
                 )}
@@ -67,17 +89,21 @@ const SingleBookList = ({ bookList, token ,removeWholeBookList}) => {
                         <thead>
                             <tr>
                                 <th>Title</th>
-                                <th>Author</th>
+                                <th>Authors</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody onClick={goToBookInformation}>
                             {booklist.books.map((book, index) => (
                                 <tr key={index} data-id={book.bookid}>
-                                    <td>{book.title}</td>
+                                    <td data-type="bookinfo" data-id={book.bookid}>{book.title}</td>
                                     <td>{book.authors.join(", ")}</td>
                                     <td>
-                                        <button className="remove-button" data-id={book.bookid}>
+                                        <button
+                                            className="remove-button"
+                                            data-id={book.bookid}
+                                            data-type="button"
+                                        >
                                             Remove
                                         </button>
                                     </td>
@@ -87,18 +113,24 @@ const SingleBookList = ({ bookList, token ,removeWholeBookList}) => {
                     </table>
                 </div>
 
-                <button className="delete-button" onClick={removeWholeList}>Delete</button>
-
-                <h2>Reviews</h2>
-                <AddBookListReview
-                    booklist={booklist}
-                    isLoggedIn={true}
-                    token={token}
-                    setParentReviews={setParentReviews}
-                />
+                <button className="delete-button" onClick={removeWholeList}>
+                    Delete
+                </button>
 
                 {booklist.isPublic ? (
-                    
+                    <>
+                        <h2>Reviews</h2>
+                        <AddBookListReview
+                            booklist={booklist}
+                            isLoggedIn={true}
+                            token={token}
+                            setParentReviews={setParentReviews}
+                        />
+                    </>
+                ) : (
+                    <></>
+                )}
+                {booklist.isPublic ? (
                     reviews.map((review, index) => (
                         <div key={index}>
                             <p>{review.reviewTitle}</p>
@@ -124,10 +156,10 @@ const SingleBookList = ({ bookList, token ,removeWholeBookList}) => {
                             <th>Author</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody onClick={goToBookInformation}>
                         {booklist.books.map((book, index) => (
                             <tr key={index} data-id={book.bookid}>
-                                <td>{book.title}</td>
+                                <td data-type="bookinfo" data-id={book.bookid}>{book.title}</td>
                                 <td>{book.authors.join(", ")}</td>
                             </tr>
                         ))}
@@ -159,14 +191,14 @@ const SingleBookList = ({ bookList, token ,removeWholeBookList}) => {
     }
 };
 
-
-
-
 const mapDispatchToProps = (dispatch) => {
     return {
         removeWholeBookList: (booklistID) => {
-            dispatch({ type: NAVIGATE_TO_BOOKLIST_PAGE, payload: booklistID });
+            dispatch({ type: NAVIGATE_TO_USER_PAGE, payload: booklistID });
         },
+        navigateToBookInformation: (book) => {
+            dispatch({ type: NAVIGATE_TO_BOOKINFORMATION_PAGE, payload: book });
+        }
     };
 };
 

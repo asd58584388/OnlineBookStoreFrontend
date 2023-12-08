@@ -75,7 +75,7 @@ const Home = ({ books }) => {
                             <button className="pagination-button" onClick={handlePrevPage}>
                                 Previous Page
                             </button>
-                            {currentPage}
+                            <b>{currentPage}</b>
                         </>
                     ) : (
                         <></>

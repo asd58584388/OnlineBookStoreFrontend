@@ -24,13 +24,16 @@ const BookInformation = ({ book, token, reviews, isLoggedIn, userBookLists }) =>
             <div className="book-item">
                 <img className="book-image" src={book.volumeInfo.imageLinks.thumbnail} />
                 <div className="book-details">
-                    <h1 className="book-title">Title:{book.volumeInfo.title}</h1>
-                    <p className="book-meta">Categories:{book.volumeInfo.categories}</p>
-                    <p className="book-meta">Authors:{book.volumeInfo.authors.join(', ')}</p>
-                    <p className="book-description">Description:{book.volumeInfo.description}</p>
+                    <h1 className="book-title"><b>Title: </b>{book.volumeInfo.title}</h1>
+                    <p className="book-meta"><b>Categories: </b>{book.volumeInfo.categories}</p>
+                    {
+                        book.volumeInfo?.authors==undefined?<b>Authors: Unknow</b>:
+                        <p className="book-meta"><b>Authors: </b>{book.volumeInfo.authors.join(', ')}</p>
+                    }
+                    <p className="book-description"><b>Description: </b>{book.volumeInfo.description}</p>
                     {book.saleInfo.saleability === 'FOR_SALE_AND_RENTAL' ||
                     book.saleInfo.saleability === 'FOR_SALE' ? (
-                        <p className="retail-price">Retail Price:{book.saleInfo.retailPrice.amount}</p>
+                        <p className="retail-price"><b>Retail Price: </b>${book.saleInfo.retailPrice.amount}</p>
                     ) : (
                         <></>
                     )}

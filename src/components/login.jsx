@@ -48,7 +48,7 @@ const Login = ({ loginUserAction }) => {
             id="email"
             value={email}
             onChange={handleUsernameChange}
-          />
+          required/>
         
           <label htmlFor="password">Password:</label>
           <input
@@ -56,7 +56,7 @@ const Login = ({ loginUserAction }) => {
             id="password"
             value={password}
             onChange={handlePasswordChange}
-          />
+          required/>
         
         <button type="submit">Login</button>
       </form>

@@ -2,9 +2,9 @@ import React from "react";
 import * as backendAPI from "../apiService";
 import { useState } from "react";
 import {connect} from 'react-redux';
-import { NAVIGATE_TO_SINGLE_BOOKLIST_PAGE } from "../redux/actionTypes";
+import { UPDATE_BOOKLISTS,NAVIGATE_TO_SINGLE_BOOKLIST_PAGE } from "../redux/actionTypes";
 
-const UserBookList = ({ booklists, token ,navigateToBookList}) => {
+const UserBookList = ({ booklists, token ,navigateToBookList,updateBookLists}) => {
     const [isCreate, setIsCreate] = useState(false);
     const [bookListName, setBookListName] = useState("");
     const [bookLists, setBookLists] = useState(booklists);
@@ -51,6 +51,8 @@ const UserBookList = ({ booklists, token ,navigateToBookList}) => {
             backendAPI.createBookList(json, token).then((result) => {
                 console.log(result);
                 setBookLists([...bookLists, result]);
+                updateBookLists([...booklists, result]);
+ 
             });
         } else {
             alert("Booklist name cannot be empty");
@@ -152,6 +154,10 @@ const mapDispatchToProps = (dispatch) => {
         navigateToBookList: (booklist) => dispatch({
             type: NAVIGATE_TO_SINGLE_BOOKLIST_PAGE,
             payload: booklist,
+        }),
+        updateBookLists: (booklists) => dispatch({
+            type: UPDATE_BOOKLISTS,
+            payload: booklists,
         }),
     };
 }

@@ -81,7 +81,8 @@ class Nav extends Component {
         const filter = this.state.filter;
 
         searchBooks(searchQuery, filter).then((result) => {
-            if(result.data.totalItems === 0)
+            console.log(result);
+            if(result.totalItems === 0)
             {
                 alert("No books found");
                 return;

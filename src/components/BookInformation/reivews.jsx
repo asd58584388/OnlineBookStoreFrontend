@@ -5,6 +5,7 @@ const Reviews = ({ reviews, token, book }) => {
     const [rating, setRating] = useState("");
     const [reviewText, setReviewText] = useState("");
     const [reviewTitle, setReviewTitle] = useState(""); // Added reviewTitle state
+    const [bookReviews, setBookReviews] = useState(reviews);
 
     const handleRatingChange = (e) => {
         setRating(e.target.value);
@@ -27,10 +28,11 @@ const Reviews = ({ reviews, token, book }) => {
             reviewText: reviewText,
             reviewTitle: reviewTitle,
         };
-        addBookReview(newReview,token).then((response) => {
+        addBookReview(newReview, token).then((response) => {
             console.log(response);
+            setBookReviews([...bookReviews, response.review]);
+            console.log("Review submitted");
         });
-        console.log("Review submitted");
     };
 
     return (
@@ -40,30 +42,33 @@ const Reviews = ({ reviews, token, book }) => {
                 {token !== "" ? (
                     <form onSubmit={handleSubmit} className="review-form">
                         <label>
-                            Rating:
+                            <b>Rating: </b>
                             <input
                                 type="number"
                                 value={rating}
                                 onChange={handleRatingChange}
                                 min={1}
                                 max={5}
+                                required
                             />
                         </label>
                         <br />
                         <label>
-                            Review Title:
+                            <b>Review Title:</b>
                             <input
                                 type="text"
                                 value={reviewTitle}
                                 onChange={handleReviewTitleChange}
+                                required
                             />
                         </label>
                         <br />
                         <label>
-                            Review Text:
+                            <b>Review Text:</b>
                             <textarea
                                 value={reviewText}
                                 onChange={handleReviewTextChange}
+                                required
                             />
                         </label>
                         <br />
@@ -74,19 +79,34 @@ const Reviews = ({ reviews, token, book }) => {
                         <p>Please login to submit a review</p>
                     </div>
                 )}
+                {bookReviews.map((review, index) => {
+                    //   console.log(review);
+                    return (
+                        <div className="single-review" key={index}>
+                            <p>
+                                <b>Title: </b>
+                                {review.reviewTitle}
+                            </p>
+                            <p>
+                                <b>Rating: </b>
+                                {review.rating}
+                            </p>
+                            <p>
+                                <b>Review: </b>
+                                {review.reviewText}
+                            </p>
+                            <p>
+                                <b>Reviewer Name: </b>
+                                {review.reviewerName}
+                            </p>
+                            <p>
+                                <b>Review Date: </b>
+                                {review.createdAt}
+                            </p>
+                        </div>
+                    );
+                })}
             </div>
-            {reviews.map((review) => {
-            //   console.log(review);
-                return (
-                    <div className="single-review" key={review._id}>
-                        <p>Title: {review.reviewTitle}</p>
-                        <p>Rating: {review.rating}</p>
-                        <p>Review: {review.reviewText}</p>
-                        <p>Review Name: {review.reviewerName}</p>
-                        <p>Review Date: {review.createdAt}</p>
-                    </div>
-                );
-            })}
         </div>
     );
 };

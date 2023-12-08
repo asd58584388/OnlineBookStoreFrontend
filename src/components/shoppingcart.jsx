@@ -14,6 +14,7 @@ class ShoppingCart extends Component {
 
     removerFromCart = (e) => {
         e.preventDefault();
+        if(e.target.dataset?.type !== "button") return;
         let body = {
             bookId: e.target.parentNode.dataset.id
   
@@ -60,13 +61,13 @@ class ShoppingCart extends Component {
                                 <li className="cart-item" key={item.bookid} data-id={item.bookid}>
                                     <p className="item-book-title">{item.booktitle}</p>
                                     <p className="item-quantity">{item.quantity}</p>
-                                    <button>Remove</button>
+                                    <button data-type="button">Remove</button>
                                 </li>
                             ))}
                         </ul>
 
                         <p className="total-cost">
-                            Total Cost:
+                            <b>Total Cost: </b>
                             {cart.reduce((total, item) => {
                                 return total + (item.price*item.quantity);
                             }, 0)}

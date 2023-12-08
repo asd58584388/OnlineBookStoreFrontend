@@ -1,7 +1,9 @@
 import axios from "axios";
 
 // const baseURL = "http://localhost:3006/api";
-const baseURL = import.meta.env.VITE_BASE_URL;
+// const baseURL = "https://bookstore-backend-xhok.onrender.com/api";
+const baseURL = "https://onlinebookstore-backend.onrender.com/api";
+
 
 export async function addBookToCart(book) {
     return axios

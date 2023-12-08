@@ -68,13 +68,13 @@ const SearchResult = ({ books, url,emptyBooks }) => {
             <div>
                 {currentPage != 1 ? (
                     <>
-                        <button onClick={handlePrevPage}>Previous Page</button>
-                        {currentPage}
+                        <button className="pagination-button" onClick={handlePrevPage} style={{marginRight:'10px'}}>Previous Page</button>
+                        <b>{currentPage}</b>
                     </>
                 ) : (
                     <></>
                 )}
-                <button onClick={handleNextPage}>Next Page</button>
+                <button className="pagination-button" onClick={handleNextPage}style={{marginLeft:'10px'}}>Next Page</button>
             </div>
         </main>
     );

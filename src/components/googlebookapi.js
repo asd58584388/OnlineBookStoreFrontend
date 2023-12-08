@@ -1,7 +1,7 @@
 // This file includes the API call to the Google Books API
 import axios from "axios";
 
-let google_api_key = import.meta.env.VITE_GOOGLE_BOOK_API_KEY;
+let google_api_key = "AIzaSyDBUDSycWuAiwS1FcppoermrIJJOPku2yg";
 
 // Search for books
 // used for search bar in navbar
@@ -48,6 +48,24 @@ export async function searchBooks(query,filter=null, startIndex=0) {
           url:url
         }
       }
+    })
+    .catch((err) => {
+      console.log("Error: " + err);
+      throw err;
+    });
+}
+
+
+export async function getBookById(id) {
+  return axios
+    .get(
+      "https://www.googleapis.com/books/v1/volumes/" + id + "?key=" + google_api_key
+    )
+    .then((res) => {
+      console.log("res",res);
+      
+      return res.data;
+      
     })
     .catch((err) => {
       console.log("Error: " + err);
