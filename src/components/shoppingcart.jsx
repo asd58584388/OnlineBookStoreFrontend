@@ -70,7 +70,7 @@ class ShoppingCart extends Component {
                             <b>Total Cost: </b>
                             {cart.reduce((total, item) => {
                                 return total + (item.price*item.quantity);
-                            }, 0)}
+                            }, 0).toFixed(2)}
                         </p>
                         <button className="checkout-button" onClick={this.handleCheckout}>Checkout</button>
                     </>

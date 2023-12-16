@@ -25,7 +25,7 @@ const OrderSummary = ({orderSummary}) => {
                 </tbody>
                 
             </table>
-            <h3>Total: {orderSummary.reduce((acc, item) => acc + item.price*item.quantity, 0)}</h3>
+            <h3>Total: {orderSummary.reduce((acc, item) => acc + item.price*item.quantity, 0).toFixed(2)}</h3>
         </div>
     );
 };

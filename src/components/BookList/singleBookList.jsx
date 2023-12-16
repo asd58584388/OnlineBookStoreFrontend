@@ -68,6 +68,8 @@ const SingleBookList = ({ bookList, token, removeWholeBookList,navigateToBookInf
         }
     };
 
+    // console.log("reviews",reviews);
+
     if (booklist.books == undefined || booklist.books.length === 0) {
         return (
             <div className="single-booklist">
@@ -182,7 +184,7 @@ const SingleBookList = ({ bookList, token, removeWholeBookList,navigateToBookInf
                             <p>Rating: {review.rating}</p>
                             <p>Review: {review.reviewText}</p>
                             <p>Review Name: {review.reviewerName}</p>
-                            <p>Review Date: {review.createdAt}</p>
+                            <p>Review Date: {review.createDate}</p>
                         </div>
                     );
                 })}
