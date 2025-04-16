@@ -68,10 +68,6 @@ Environment-specific variables are managed through `.env` files and not committe
 npm run build
 ```
 
-## Project Status
-
-This project is actively maintained and regularly updated with new features and improvements.
-
 ## Contact
 
 For questions about this project, please contact the development team.
